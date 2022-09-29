@@ -49,3 +49,9 @@ export const Button = styled.button`
   font-weight: 600;
   font-size: 16px;
 `;
+
+export const ErrorMsg = styled.p`
+  color: red;
+  font-size: 12px;
+  margin-top: -20px;
+`;

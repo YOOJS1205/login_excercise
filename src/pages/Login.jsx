@@ -1,19 +1,45 @@
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
-import { FormContainer, Title, Label, Input, Button } from "./FormStyle";
+import {
+  FormContainer,
+  Title,
+  Label,
+  Input,
+  Button,
+  ErrorMsg,
+} from "./FormStyle";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm();
-  console.log(register);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  console.log(errors);
+  const onSubmitForm = useCallback(() => {
+    console.log("hi");
+  }, []);
   return (
-    <FormContainer>
+    <FormContainer onSubmit={handleSubmit(onSubmitForm)}>
       <Title>로그인</Title>
       <Label htmlFor="id">아이디</Label>
-      <Input id="id" />
+      <Input
+        id="id"
+        type="email"
+        {...register("id", { required: "아이디는 필수 입력사항입니다." })}
+      />
       <Label htmlFor="password">비밀번호</Label>
-      <Input id="password" />
-      <Button>로그인하기</Button>
+      <Input
+        id="password"
+        type="password"
+        {...register("password", {
+          required: true,
+          minLength: { value: 8, message: "비밀번호는 8자리 이상입니다." },
+        })}
+      />
+      {errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
+      <Button type="submit">로그인하기</Button>
     </FormContainer>
   );
 }
