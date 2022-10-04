@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { LoginAPI } from "../api/auth";
 
 import {
   FormContainer,
@@ -16,10 +17,13 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(errors);
+
   const onSubmitForm = useCallback(() => {
     console.log("hi");
+    LoginAPI();
   }, []);
+
+  console.log(errors);
   return (
     <FormContainer onSubmit={handleSubmit(onSubmitForm)}>
       <Title>로그인</Title>
@@ -29,6 +33,7 @@ export default function Login() {
         type="email"
         {...register("id", { required: "아이디는 필수 입력사항입니다." })}
       />
+      {errors.id && <ErrorMsg>{errors.id.message}</ErrorMsg>}
       <Label htmlFor="password">비밀번호</Label>
       <Input
         id="password"
